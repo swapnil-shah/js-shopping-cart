@@ -1,0 +1,24 @@
+{
+  "name": "js-shopping-cart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "start": "parcel index.html team.html store.html",
+    "build": "parcel build index.html team.html store.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swapnil-shah/js-shopping-cart.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swapnil-shah/js-shopping-cart/issues"
+  },
+  "homepage": "https://github.com/swapnil-shah/js-shopping-cart#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
