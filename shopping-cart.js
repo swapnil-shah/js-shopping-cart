@@ -1,3 +1,8 @@
+// Remove items from cart
+// show hide the cart button when no items or when it goed from 0 to 1
+// persist across multiple pages
+// calculate accurate total
+// show hide the cart when clicked
 
 import items from './items.json'
 import formatCurrency from './util/formatCurrency.js'
@@ -10,25 +15,31 @@ const cartItemTemplate = document.querySelector('#cart-item-template')
 const cartQuantity = document.querySelector('[data-cart-quantity]')
 const cartTotal = document.querySelector('[data-cart-total]')
 const cart = document.querySelector('[data-cart]')
-
 const IMAGE_URL = "https://dummyimage.com/210x130"
-let shoppingCart = []
+const SESSION_STORAGE_KEY = "SHOPPING_CART-cart"
+
+let shoppingCart = loadCart()
 export function setUpShoppingCart() {
   addGlobalEventListener("click", '[data-remove-from-cart-button]', e => {
     const id = e.target.closest('[data-item]').dataset.itemId
     removeFromCart(parseInt(id))
   })
   renderCart()
-}
-// Remove items from cart
-// show hide the cart button when no items or when it goed from 0 to 1
-// persist across multiple pages
-// calculate accurate total
-// show hide the cart when clicked
-cartButton.addEventListener('click', () => {
-  cartItemsWrapper.classList.toggle('invisible')
-})
 
+  cartButton.addEventListener('click', () => {
+    cartItemsWrapper.classList.toggle('invisible')
+  })
+
+}
+
+// persist across multiple pages
+function saveCart() {
+  sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(shoppingCart))
+}
+function loadCart() {
+  const cart = sessionStorage.getItem(SESSION_STORAGE_KEY)
+  return JSON.parse(cart) || []
+}
 // Add items to Cart
 export function addToCart(id) {
   // Handle multiple of the same item in the cart
@@ -40,6 +51,7 @@ export function addToCart(id) {
     shoppingCart.push({ id: id, quantity: 1 })
   }
   renderCart()
+  saveCart()
 }
 // Remove items from cart
 function removeFromCart(id) {
@@ -47,6 +59,7 @@ function removeFromCart(id) {
   if (existingItem == null) return
   shoppingCart = shoppingCart.filter(entry => entry.id !== id)
   renderCart()
+  saveCart()
 }
 // show hide the cart button when no items or when it goed from 0 to 1
 function renderCart() {
